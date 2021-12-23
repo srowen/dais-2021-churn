@@ -84,9 +84,9 @@ from databricks.feature_store import FeatureStoreClient
 
 fs = FeatureStoreClient()
 
-service_features_table = fs.create_feature_table(
+service_features_table = fs.create_table(
   name='seanowen.service_features',
-  keys='customerID',
+  primary_keys='customerID',
   schema=service_df.schema,
   description='Telco customer services')
 
@@ -153,7 +153,7 @@ mlflow_call_endpoint("registry-webhooks/list", method="GET", body=json.dumps({"m
 
 # COMMAND ----------
 
-mlflow_call_endpoint("registry-webhooks/delete", method="DELETE", body=json.dumps({'id': '26ac11a4b57a418fbf00eb6a8fb1c5b1'}))
+mlflow_call_endpoint("registry-webhooks/delete", method="DELETE", body=json.dumps({'id': '630bf50e3e4c434485b7525247777a6a'}))
 
 # COMMAND ----------
 
