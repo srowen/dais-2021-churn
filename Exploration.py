@@ -108,8 +108,8 @@ X_background, X_example, _, y_example = train_test_split(data, labels, train_siz
 
 model = mlflow.sklearn.load_model("runs:/b53bf168667a46aaadb6a06aab0bc0ac/model")
 
-predict = lambda x: model.predict_proba(pd.DataFrame(x, columns=X_example.columns))[:,-1]
-explainer = KernelExplainer(predict, X_example)
+predict = lambda x: model.predict_proba(pd.DataFrame(x, columns=X_background.columns))[:,-1]
+explainer = KernelExplainer(predict, X_background)
 shap_values = explainer.shap_values(X=X_example)
 
 # COMMAND ----------
