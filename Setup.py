@@ -1,6 +1,6 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC # DAIS 2021 Data Science session: Setup
+# MAGIC # Setup
 # MAGIC 
 # MAGIC This notebook contains setup code that would have been run outside of the core data science flow. These are details that aren't part of the data science demo. It's not necessarily meant to be Run All directly; these are pieces to execute as needed, for reference.
 
@@ -107,35 +107,22 @@ compute_service_features.compute_and_write(telco_df, feature_table_name="seanowe
 
 # COMMAND ----------
 
-import mlflow.tracking
-from mlflow.utils.rest_utils import http_request
-import json
-
-client = mlflow.tracking.client.MlflowClient()
-host_creds = client._tracking_client.store.get_host_creds()
-
-def mlflow_call_endpoint(endpoint, method, body):
-  if method == 'GET':
-    response = http_request(host_creds=host_creds, endpoint=f"/api/2.0/mlflow/{endpoint}", method=method, params=json.loads(body))
-  else:
-    response = http_request(host_creds=host_creds, endpoint=f"/api/2.0/mlflow/{endpoint}", method=method, json=json.loads(body))
-  return response.json()
+# MAGIC %pip install databricks-registry-webhooks
 
 # COMMAND ----------
 
-trigger_job = json.dumps({
-  "model_name": "dais-2021-churn",
-  "events": ["MODEL_VERSION_TRANSITIONED_STAGE"],
-  "description": "Trigger the CI/CD job when a model is moved to Staging",
-  "status": "ACTIVE",
-  "job_spec": {
-    "job_id": "1415341",
-    "workspace_url": host_creds.host,
-    "access_token": host_creds.token
-  }
-})
+from databricks_registry_webhooks import RegistryWebhooksClient, JobSpec
+import mlflow.tracking
 
-mlflow_call_endpoint("registry-webhooks/create", "POST", trigger_job)
+host_creds = mlflow.tracking.client.MlflowClient()._tracking_client.store.get_host_creds()
+
+job_webhook = RegistryWebhooksClient().create_webhook(
+  model_name="dais-2021-churn",
+  events=["MODEL_VERSION_TRANSITIONED_STAGE"],
+  job_spec=JobSpec(job_id="1415341", access_token=host_creds.token),
+  description="Trigger the CI/CD job when a model is moved to Staging",
+  status="ACTIVE"
+)
 
 # COMMAND ----------
 
@@ -144,7 +131,7 @@ mlflow_call_endpoint("registry-webhooks/create", "POST", trigger_job)
 
 # COMMAND ----------
 
-mlflow_call_endpoint("registry-webhooks/list", method="GET", body=json.dumps({"model_name": "dais-2021-churn"}))
+RegistryWebhooksClient().list_webhooks(model_name='dais-2021-churn')
 
 # COMMAND ----------
 
@@ -153,8 +140,4 @@ mlflow_call_endpoint("registry-webhooks/list", method="GET", body=json.dumps({"m
 
 # COMMAND ----------
 
-mlflow_call_endpoint("registry-webhooks/delete", method="DELETE", body=json.dumps({'id': '630bf50e3e4c434485b7525247777a6a'}))
-
-# COMMAND ----------
-
-
+RegistryWebhooksClient().delete_webhook("6b713ba1c8b24c3a8dfa78dcce9269f6")

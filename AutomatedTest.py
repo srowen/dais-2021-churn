@@ -1,6 +1,6 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC # DAIS 2021 Data Science session: Automated Testing
+# MAGIC # Automated Testing
 # MAGIC 
 # MAGIC This notebook is derived from the auto-generated batch inference notebook, from the MLflow Model Registry. It loads the latest Staging candidate model and, in addition to running inference on a data set, assesses model metrics on that result and from the training run. If successful, the model is promoted to Production. This is scheduled to run as a Job, triggered manually or on a schedule - or by a webhook set up to respond to state changes in the registry.
 # MAGIC 

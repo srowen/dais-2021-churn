@@ -1,6 +1,6 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC # DAIS 2021 Data Science session: Modeling
+# MAGIC # Modeling
 # MAGIC 
 # MAGIC Auto ML generated a baseline model for us, but, we could already see it was too simplistic. From that working modeling code, the data scientist could iterate and improve it by hand.
 # MAGIC 
