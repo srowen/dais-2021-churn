@@ -54,9 +54,6 @@ telco_df.select("customerID", "gender", "SeniorCitizen", "Partner", "Dependents"
 
 # COMMAND ----------
 
-from databricks.feature_store import feature_table
-
-@feature_table
 def compute_service_features(data):
   # Count number of optional services enabled, like streaming TV
   @F.pandas_udf('int')
@@ -92,7 +89,7 @@ service_features_table = fs.create_table(
 
 # COMMAND ----------
 
-compute_service_features.compute_and_write(telco_df, feature_table_name="seanowen.service_features")
+fs.write_table("seanowen.service_features", service_df)
 
 # COMMAND ----------
 
