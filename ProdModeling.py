@@ -112,8 +112,7 @@ search_space = {
 }
 
 best_params = fmin(fn=train_model, space=search_space, algo=tpe.suggest, \
-                   max_evals=64, trials=SparkTrials(parallelism=8), \
-                   rstate=np.random.RandomState(810302555))
+                   max_evals=32, trials=SparkTrials(parallelism=8))
 
 # COMMAND ----------
 

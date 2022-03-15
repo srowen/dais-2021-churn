@@ -22,7 +22,7 @@ if not os.path.exists(requirements_path):
 
 # COMMAND ----------
 
-# MAGIC %pip install -r $requirements_path
+# %pip install -r $requirements_path
 
 # COMMAND ----------
 
@@ -46,7 +46,7 @@ assert(accuracy >= 0.8)
 
 # COMMAND ----------
 
-from databricks.feature_store import FeatureStoreClient
+from databricks.feature_store.client import FeatureStoreClient
 
 fs = FeatureStoreClient()
 

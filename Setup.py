@@ -14,7 +14,7 @@
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC DROP TABLE seanowen.demographic;
+# MAGIC -- DROP TABLE IF EXISTS seanowen.demographic;
 
 # COMMAND ----------
 
@@ -73,7 +73,7 @@ service_df = compute_service_features(telco_df)
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC DROP TABLE seanowen.service_features;
+# MAGIC -- DROP TABLE IF EXISTS seanowen.service_features;
 
 # COMMAND ----------
 
@@ -137,4 +137,8 @@ RegistryWebhooksClient().list_webhooks(model_name='dais-2021-churn')
 
 # COMMAND ----------
 
-RegistryWebhooksClient().delete_webhook("6b713ba1c8b24c3a8dfa78dcce9269f6")
+RegistryWebhooksClient().delete_webhook("654999907dd84cdc8cc4503ff2b34591")
+
+# COMMAND ----------
+
+
